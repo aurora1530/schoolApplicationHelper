@@ -45,7 +45,9 @@ class _ApplicationState extends State<Application> {
     var theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: theme.colorScheme.inversePrimary,
         title: const Text('出願方法'),
+        centerTitle: true,
       ),
       body: Center(
         child: Column(
