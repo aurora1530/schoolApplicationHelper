@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:school_application_helper/widgets/search/application.dart';
 import 'package:school_application_helper/widgets/search/high_school_info.dart';
+import 'package:school_application_helper/widgets/search/highschool_search_box.dart';
 import 'package:school_application_helper/widgets/search/highschools_list_view.dart';
 import 'package:school_application_helper/widgets/search/pagination_arrows.dart';
 
@@ -172,35 +173,10 @@ class _SearchResultState extends State<SearchResult> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(4.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: [
-                    IconButton(
-                        onPressed: _showPrefectureDialog,
-                        icon: const Icon(Icons.menu)),
-                    Expanded(
-                        child: TextField(
-                      controller: _searchController,
-                      onSubmitted: (query) {
-                        _fetchSchools(query, 1);
-                      },
-                      decoration: const InputDecoration(
-                          hintText: '高校名を入力',
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(vertical: 15.0)),
-                    )),
-                    IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: () {
-                        _fetchSchools(_searchController.text, 1);
-                      },
-                    ),
-                  ],
-                ),
+              child: HighSchoolSearchBox(
+                searchController: _searchController,
+                showPrefectureDialog: _showPrefectureDialog,
+                fetchSchools: _fetchSchools,
               ),
             ),
             _schoolCount > 0
