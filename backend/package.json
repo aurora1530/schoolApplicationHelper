@@ -4,7 +4,7 @@
     "dev": "tsx watch src/index.ts",
     "seed": "tsx prisma/seed.ts",
     "view": "tsx prisma/view.ts",
-    "db:init": "prisma migrate dev --name init && yarn seed"
+    "db:init": "prisma migrate reset && yarn prisma migrate dev --name init && yarn seed"
   },
   "dependencies": {
     "@hono/node-server": "^1.12.0",
