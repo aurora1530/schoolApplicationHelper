@@ -1,8 +1,5 @@
 ```
-npm install
-npm run dev
+yarn install
+yarn db:init # これでdbの初期化が行われる。
 ```
 
-```
-open http://localhost:3000
-```
