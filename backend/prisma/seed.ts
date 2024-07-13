@@ -202,8 +202,8 @@ const main = async () => {
           deadline,
           highSchoolID: highSchool.id,
           method: methods[i],
-          document: excludeRandomFromArray(documentTypes).join(','),
-          subject: excludeRandomFromArray(subjects).join(','),
+          documents: excludeRandomFromArray(documentTypes).join(','),
+          subjects: excludeRandomFromArray(subjects).join(','),
         },
       });
     }

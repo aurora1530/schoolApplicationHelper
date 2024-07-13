@@ -31,7 +31,7 @@ model Application {
   deadline     DateTime
   highSchoolID Int
   highSchool   HighSchool @relation(fields: [highSchoolID], references: [id])
-  method       String
-  subject      String
-  document     String
+  method      String
+  subjects     String
+  documents    String
 }

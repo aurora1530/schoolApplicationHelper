@@ -5,8 +5,8 @@ type ApplicationInfo = {
   deadline: Date;
   highSchoolName: string;
   method: string;
-  subject: string;
-  document: string;
+  subjects: string;
+  documents: string;
 };
 
 export const searchApplicationBySchoolId = async (
@@ -27,19 +27,17 @@ export const searchApplicationBySchoolId = async (
         },
       },
       method: true,
-      subject: true,
-      document: true,
+      subjects: true,
+      documents: true,
     },
   });
 
-  return applications.map((application) => (
-    {
-      id: application.id,
-      deadline: application.deadline,
-      highSchoolName: application.highSchool.name,
-      method: application.method,
-      subject: application.subject,
-      document: application.document,
-    }
-  ));
+  return applications.map((application) => ({
+    id: application.id,
+    deadline: application.deadline,
+    highSchoolName: application.highSchool.name,
+    method: application.method,
+    subjects: application.subjects,
+    documents: application.documents,
+  }));
 };
