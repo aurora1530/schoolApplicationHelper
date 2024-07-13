@@ -23,6 +23,7 @@ model HighSchool {
   prefecture   Prefecture    @relation(fields: [prefectureID], references: [id])
   Application  Application[]
 
+  @@index([name], name: "name")
   @@map("HighSchool")
 }
 
@@ -31,7 +32,7 @@ model Application {
   deadline     DateTime
   highSchoolID Int
   highSchool   HighSchool @relation(fields: [highSchoolID], references: [id])
-  method      String
+  method       String
   subjects     String
   documents    String
 }
