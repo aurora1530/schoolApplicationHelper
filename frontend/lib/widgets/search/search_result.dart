@@ -11,20 +11,24 @@ class SearchResult extends StatefulWidget {
 }
 
 class _SearchResultState extends State<SearchResult> {
+  int _currentPage = 1;
+  int _pageCount = 0;
+  int _schoolCount = 0;
   List<HighSchoolInfo> _schools = [];
   final TextEditingController _searchController = TextEditingController();
 
-  Future<void> _fetchSchools(String query) async {
-    print('query: $query');
-    // localhost => 10.0.2.2
-    // cf. https://araramistudio.jimdo.com/2018/01/11/android%E3%81%AE%E3%82%A8%E3%83%9F%E3%83%A5%E3%83%AC%E3%83%BC%E3%82%BF%E3%83%BC%E3%81%8B%E3%82%89%E8%87%AA%E8%BA%AB%E3%81%AEpc-localhost-%E3%81%B8%E6%8E%A5%E7%B6%9A/
-    final response = await http
-        .get(Uri.parse('http://10.0.2.2:3000/search/highSchools?q=$query'));
+  Future<void> _fetchSchools(String query, int page) async {
+    final response = await http.get(Uri.parse(
+        'http://10.0.2.2:3000/search/highSchools?q=$query&page=$page'));
 
     if (response.statusCode == 200) {
-      final List<dynamic> schoolListJson = json.decode(response.body);
+      final Map<String, dynamic> schoolListJson = json.decode(response.body);
+      final List<dynamic> schools = schoolListJson['schools'];
       setState(() {
-        _schools = schoolListJson
+        _schoolCount = schoolListJson['count'];
+        _pageCount = schoolListJson['pageCount'];
+        _currentPage = page;
+        _schools = schools
             .map((schoolJson) => HighSchoolInfo.fromJson(schoolJson))
             .toList();
       });
@@ -37,11 +41,23 @@ class _SearchResultState extends State<SearchResult> {
     _searchController.clear();
     setState(() {
       _schools = [];
+      _currentPage = 1;
+      _pageCount = 0;
+      _schoolCount = 0;
     });
+  }
+
+  void _handleSearch(String query, int page) {
+    if (query.isEmpty) {
+      _resetSearch();
+    } else {
+      _fetchSchools(query, page);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -59,14 +75,8 @@ class _SearchResultState extends State<SearchResult> {
                   Expanded(
                       child: TextField(
                     controller: _searchController,
-                    onSubmitted: (value) {
-                      if (value.isEmpty) {
-                        _resetSearch();
-                      } else {
-                        setState(() {
-                          _fetchSchools(_searchController.text);
-                        });
-                      }
+                    onSubmitted: (query) {
+                      _handleSearch(query, 1);
                     },
                     decoration: const InputDecoration(
                         hintText: '高校名を入力',
@@ -76,15 +86,19 @@ class _SearchResultState extends State<SearchResult> {
                   IconButton(
                     icon: const Icon(Icons.search),
                     onPressed: () {
-                      setState(() {
-                        _fetchSchools(_searchController.text);
-                      });
+                      _handleSearch(_searchController.text, 1);
                     },
                   ),
                 ],
               ),
             ),
           ),
+          _schoolCount > 0
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('$_schoolCount件の高校が見つかりました'),
+                )
+              : const Text('高校が見つかりませんでした。検索条件を変更してください。'),
           Expanded(
             child: ListView.builder(
               itemCount: _schools.length,
@@ -106,6 +120,42 @@ class _SearchResultState extends State<SearchResult> {
                 );
               },
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: _pageCount == 0
+                ? const SizedBox.shrink()
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: const Icon(
+                          Icons.arrow_back,
+                          size: 50,
+                        ),
+                        onPressed: _currentPage > 1
+                            ? () {
+                                _fetchSchools(
+                                    _searchController.text, _currentPage - 1);
+                              }
+                            : null,
+                      ),
+                      Text('$_currentPage / $_pageCount',
+                          style: theme.textTheme.titleLarge),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.arrow_forward,
+                          size: 50,
+                        ),
+                        onPressed: _currentPage < _pageCount
+                            ? () {
+                                _fetchSchools(
+                                    _searchController.text, _currentPage + 1);
+                              }
+                            : null,
+                      ),
+                    ],
+                  ),
           ),
         ],
       ),
