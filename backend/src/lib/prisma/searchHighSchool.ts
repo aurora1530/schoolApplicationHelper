@@ -1,4 +1,5 @@
 import { Client } from "./prisma"
+import { hiraganaToKatakana } from "./utils"
 
 type SchoolInfo = {
   id: number
@@ -9,6 +10,7 @@ type SchoolInfo = {
 export const searchSchoolsByName = async (nameQuery: string):Promise<SchoolInfo[]> => {
   const client = Client.getInstance()
 
+  nameQuery = hiraganaToKatakana(nameQuery)
   const schools = await client.highSchool.findMany({
     where: {
       name: {
