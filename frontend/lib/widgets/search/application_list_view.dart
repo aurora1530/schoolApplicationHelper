@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:school_application_helper/utils/datetime.dart';
 import 'package:school_application_helper/widgets/search/application_info.dart';
 
 class ApplicationListView extends StatelessWidget {
@@ -21,7 +22,7 @@ class ApplicationListView extends StatelessWidget {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Deadline: ${application.deadline}'),
+                Text('出願締め切り: ${formatDateTimeToLocale(application.deadline)}'),
                 Text('Documents: ${application.documents.join(', ')}'),
                 Text('Subjects: ${application.subjects.join(', ')}'),
               ],
