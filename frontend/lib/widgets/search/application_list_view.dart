@@ -23,8 +23,8 @@ class ApplicationListView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('出願締め切り: ${formatDateTimeToLocale(application.deadline)}'),
-                Text('Documents: ${application.documents.join(', ')}'),
-                Text('Subjects: ${application.subjects.join(', ')}'),
+                Text('必要書類: ${application.documents.join(', ')}'),
+                Text('受験科目: ${application.subjects.join(', ')}'),
               ],
             ),
           ),
