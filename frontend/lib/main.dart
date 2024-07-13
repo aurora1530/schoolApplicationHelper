@@ -10,26 +10,27 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'School Application Helper',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const SchoolApplicationHelper(title: 'School Application Helper'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class SchoolApplicationHelper extends StatefulWidget {
+  const SchoolApplicationHelper({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<SchoolApplicationHelper> createState() =>
+      _SchoolApplicationHelperState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _SchoolApplicationHelperState extends State<SchoolApplicationHelper> {
   int _counter = 0;
 
   void _incrementCounter() {
