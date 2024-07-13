@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:school_application_helper/widgets/search/application.dart';
-import 'package:school_application_helper/widgets/search/high_school_info.dart';
+import 'package:school_application_helper/widgets/search/highschool_info.dart';
 
 class HighSchoolsListView extends StatelessWidget {
   const HighSchoolsListView({

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:school_application_helper/widgets/search/application_info.dart';
-import 'package:school_application_helper/widgets/search/high_school_info.dart';
+import 'package:school_application_helper/widgets/search/highschool_info.dart';
 
 class Application extends StatefulWidget {
   final HighSchoolInfo school;
