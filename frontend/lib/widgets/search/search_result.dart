@@ -160,14 +160,6 @@ class _SearchResultState extends State<SearchResult> {
     });
   }
 
-  void _handleSearch(String query, int page) {
-    if (query.isEmpty) {
-      _resetSearch();
-    } else {
-      _fetchSchools(query, page);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -191,7 +183,7 @@ class _SearchResultState extends State<SearchResult> {
                       child: TextField(
                     controller: _searchController,
                     onSubmitted: (query) {
-                      _handleSearch(query, 1);
+                      _fetchSchools(query, 1);
                     },
                     decoration: const InputDecoration(
                         hintText: '高校名を入力',
@@ -201,7 +193,7 @@ class _SearchResultState extends State<SearchResult> {
                   IconButton(
                     icon: const Icon(Icons.search),
                     onPressed: () {
-                      _handleSearch(_searchController.text, 1);
+                      _fetchSchools(_searchController.text, 1);
                     },
                   ),
                 ],
