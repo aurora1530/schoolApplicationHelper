@@ -8,7 +8,7 @@ app.get('/', (c) => {
   return c.text('Hello Hono!')
 })
 
-app.get('/search', async (c) => {
+app.get('/search/highSchools', async (c) => {
   const query = c.req.query('q') ?? ''
   if (!query) {
     c.status(400)
