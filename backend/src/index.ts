@@ -34,7 +34,6 @@ app.get('/search/highSchools/:id', async (c) => {
   }
 
   const applications = await searchApplicationBySchoolId(id);
-  await new Promise((resolve) => setTimeout(resolve, 1000));
   return c.json(applications);
 });
 
