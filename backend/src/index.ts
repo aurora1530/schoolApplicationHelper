@@ -11,19 +11,21 @@ app.get('/', (c) => {
 
 app.get('/search/highSchools', async (c) => {
   const query = c.req.query('q') ?? ''
-  console.log(`path: ${c.req.path}, query: ${query}`)
+  const page = parseInt(c.req.query('page') ?? '1')
+  console.log(`path: ${c.req.path}, query: ${query}, page: ${page}`)
   if (!query) {
     c.status(400)
     return c.json({  error: 'Query is required' })
   }
 
-  const schools = await searchSchoolsByName(query)
+  const {items:schools,count,pageCount} = await searchSchoolsByName(query, page)
 
-  return c.json(schools)
+  return c.json({schools,count,pageCount})
 })
 
 app.get('/search/highSchools/:id', async (c) => {
   const idStr = c.req.param('id')
+  console.log(`path: ${c.req.path}, id: ${idStr}`)
   const id = parseInt(idStr)
   if (!Number.isInteger(id) || id < 0) {
     c.status(400)
@@ -32,7 +34,7 @@ app.get('/search/highSchools/:id', async (c) => {
 
 
   const applications = await searchApplicationBySchoolId(id)
-
+  await new Promise((resolve) => setTimeout(resolve, 1000))
   return c.json(applications)
 })
 
