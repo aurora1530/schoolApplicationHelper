@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:school_application_helper/widgets/search/application.dart';
 import 'package:school_application_helper/widgets/search/high_school_info.dart';
 
 class SearchResult extends StatefulWidget {
@@ -74,10 +75,18 @@ class _SearchResultState extends State<SearchResult> {
               itemBuilder: (context, index) {
                 return Card(
                   child: ListTile(
-                    title: Text(_schools[index].name),
-                    subtitle: Text(_schools[index].prefecture),
-                    trailing: const Icon(Icons.arrow_forward_ios),
-                  ),
+                      title: Text(_schools[index].name),
+                      subtitle: Text(_schools[index].prefecture),
+                      trailing: IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Application(school: _schools[index])));
+                        },
+                        icon: const Icon(Icons.arrow_forward_ios),
+                      )),
                 );
               },
             ),
