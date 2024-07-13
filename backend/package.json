@@ -1,7 +1,10 @@
 {
   "name": "school-application-helper-backend",
   "scripts": {
-    "dev": "tsx watch src/index.ts"
+    "dev": "tsx watch src/index.ts",
+    "seed": "tsx prisma/seed.ts",
+    "view": "tsx prisma/view.ts",
+    "db:init": "prisma migrate dev --name init && yarn seed"
   },
   "dependencies": {
     "@hono/node-server": "^1.12.0",
