@@ -7,18 +7,17 @@ class PaginationArrows extends StatelessWidget {
     required int pageCount,
     required this.toPreviousPage,
     required this.toNextPage,
-    required this.theme,
   })  : _currentPage = currentPage,
         _pageCount = pageCount;
 
   final int _currentPage;
   final int _pageCount;
-  final ThemeData theme;
   final VoidCallback toPreviousPage;
   final VoidCallback toNextPage;
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
