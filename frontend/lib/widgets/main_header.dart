@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:school_application_helper/main.dart';
 
 class MainHeader extends StatelessWidget implements PreferredSizeWidget {
   const MainHeader({
     super.key,
-    required this.widget,
+    required this.title,
   });
 
-  final SchoolApplicationHelper widget;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      title: Text(widget.title),
+      title: Text(title),
       centerTitle: true,
       leading: IconButton(
         icon: const Icon(Icons.menu),

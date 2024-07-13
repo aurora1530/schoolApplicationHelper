@@ -36,7 +36,7 @@ class _SchoolApplicationHelperState extends State<SchoolApplicationHelper> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MainHeader(widget: widget),
+      appBar: MainHeader(title: widget.title),
       body: SearchResult(),
     );
   }
