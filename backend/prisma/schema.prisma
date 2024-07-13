@@ -13,22 +13,23 @@ datasource db {
 model Prefecture {
   id        Int         @id @default(autoincrement())
   name      String
-  HighScool HighScool[]
+  HighScool HighSchool[]
 }
 
-model HighScool {
+model HighSchool {
   id           Int           @id @default(autoincrement())
   name         String
   prefectureID Int
   prefecture   Prefecture    @relation(fields: [prefectureID], references: [id])
   Application  Application[]
+	@@map("HighScool")
 }
 
 model Application {
   id          Int        @id @default(autoincrement())
   deadline    DateTime
   highScoolID Int
-  highScool   HighScool  @relation(fields: [highScoolID], references: [id])
+  highScool   HighSchool  @relation(fields: [highScoolID], references: [id])
   Method      Method[]
   Subject     Subject[]
   Document    Document[]
