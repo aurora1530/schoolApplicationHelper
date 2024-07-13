@@ -1,6 +1,12 @@
 import { Client } from "./prisma"
 
-export const searchSchoolsByName = async (nameQuery: string) => {
+type SchoolInfo = {
+  id: number
+  name: string
+  prefecture: string
+}
+
+export const searchSchoolsByName = async (nameQuery: string):Promise<SchoolInfo[]> => {
   const client = Client.getInstance()
 
   const schools = await client.highSchool.findMany({
@@ -8,8 +14,17 @@ export const searchSchoolsByName = async (nameQuery: string) => {
       name: {
         contains: nameQuery
       }
+    },
+    select: {
+      id: true,
+      name: true,
+      prefecture: true
     }
   })
 
-  return schools
+  return schools.map((school) => ({
+    id: school.id,
+    name: school.name,
+    prefecture: school.prefecture.name
+  }))
 }
