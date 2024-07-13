@@ -33,6 +33,13 @@ class _SearchResultState extends State<SearchResult> {
     }
   }
 
+  void _resetSearch() {
+    _searchController.clear();
+    setState(() {
+      _schools = [];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -52,6 +59,15 @@ class _SearchResultState extends State<SearchResult> {
                   Expanded(
                       child: TextField(
                     controller: _searchController,
+                    onSubmitted: (value) {
+                      if (value.isEmpty) {
+                        _resetSearch();
+                      } else {
+                        setState(() {
+                          _fetchSchools(_searchController.text);
+                        });
+                      }
+                    },
                     decoration: const InputDecoration(
                         hintText: '高校名を入力',
                         border: InputBorder.none,
