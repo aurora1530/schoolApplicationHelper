@@ -11,6 +11,7 @@ app.get('/', (c) => {
 
 app.get('/search/highSchools', async (c) => {
   const query = c.req.query('q') ?? ''
+  console.log(`path: ${c.req.path}, query: ${query}`)
   if (!query) {
     c.status(400)
     return c.json({  error: 'Query is required' })
