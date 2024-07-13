@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:school_application_helper/widgets/search/application.dart';
 import 'package:school_application_helper/widgets/search/high_school_info.dart';
 import 'package:school_application_helper/widgets/search/highschools_list_view.dart';
+import 'package:school_application_helper/widgets/search/pagination_arrows.dart';
 
 class SearchResult extends StatefulWidget {
   @override
@@ -213,37 +214,16 @@ class _SearchResultState extends State<SearchResult> {
             padding: const EdgeInsets.all(8.0),
             child: _pageCount == 0
                 ? const SizedBox.shrink()
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.arrow_back,
-                          size: 50,
-                        ),
-                        onPressed: _currentPage > 1
-                            ? () {
-                                _fetchSchools(
-                                    _searchController.text, _currentPage - 1);
-                              }
-                            : null,
-                      ),
-                      Text('$_currentPage / $_pageCount',
-                          style: theme.textTheme.titleLarge),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.arrow_forward,
-                          size: 50,
-                        ),
-                        onPressed: _currentPage < _pageCount
-                            ? () {
-                                _fetchSchools(
-                                    _searchController.text, _currentPage + 1);
-                              }
-                            : null,
-                      ),
-                    ],
-                  ),
+                : PaginationArrows(
+                    currentPage: _currentPage,
+                    pageCount: _pageCount,
+                    toPreviousPage: () {
+                      _fetchSchools(_searchController.text, _currentPage - 1);
+                    },
+                    toNextPage: () {
+                      _fetchSchools(_searchController.text, _currentPage + 1);
+                    },
+                    theme: theme),
           ),
         ],
       ),
