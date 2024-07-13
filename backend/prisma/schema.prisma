@@ -9,3 +9,48 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model Prefecture {
+  id        Int         @id @default(autoincrement())
+  name      String
+  HighScool HighScool[]
+}
+
+model HighScool {
+  id           Int           @id @default(autoincrement())
+  name         String
+  prefectureID Int
+  prefecture   Prefecture    @relation(fields: [prefectureID], references: [id])
+  Application  Application[]
+}
+
+model Application {
+  id          Int        @id @default(autoincrement())
+  deadline    DateTime
+  highScoolID Int
+  highScool   HighScool  @relation(fields: [highScoolID], references: [id])
+  Method      Method[]
+  Subject     Subject[]
+  Document    Document[]
+}
+
+model Method {
+  id            Int         @id @default(autoincrement())
+  name          String
+  applicationID Int
+  application   Application @relation(fields: [applicationID], references: [id])
+}
+
+model Subject {
+  id            Int         @id @default(autoincrement())
+  name          String
+  applicationID Int
+  application   Application @relation(fields: [applicationID], references: [id])
+}
+
+model Document {
+  id            Int         @id @default(autoincrement())
+  name          String
+  applicationID Int
+  application   Application @relation(fields: [applicationID], references: [id])
+}
