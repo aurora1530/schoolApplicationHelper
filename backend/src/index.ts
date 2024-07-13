@@ -1,6 +1,7 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { searchSchoolsByName } from './lib/prisma/searchHighSchool'
+import { searchApplicationBySchoolId } from './lib/prisma/searchApplication'
 
 const app = new Hono()
 
@@ -23,12 +24,15 @@ app.get('/search/highSchools', async (c) => {
 app.get('/search/highSchools/:id', async (c) => {
   const idStr = c.req.param('id')
   const id = parseInt(idStr)
-  if (Number.isInteger(id) || id < 0) {
+  if (!Number.isInteger(id) || id < 0) {
     c.status(400)
     return c.json({ error: 'Invalid id' })
   }
 
 
+  const applications = await searchApplicationBySchoolId(id)
+
+  return c.json(applications)
 })
 
 const port = 3000
