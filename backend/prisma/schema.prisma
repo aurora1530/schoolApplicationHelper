@@ -31,28 +31,7 @@ model Application {
   deadline     DateTime
   highSchoolID Int
   highSchool   HighSchool @relation(fields: [highSchoolID], references: [id])
-  Method       Method[]
-  Subject      Subject[]
-  Document     Document[]
-}
-
-model Method {
-  id            Int         @id @default(autoincrement())
-  name          String
-  applicationID Int
-  application   Application @relation(fields: [applicationID], references: [id])
-}
-
-model Subject {
-  id            Int         @id @default(autoincrement())
-  name          String
-  applicationID Int
-  application   Application @relation(fields: [applicationID], references: [id])
-}
-
-model Document {
-  id            Int         @id @default(autoincrement())
-  name          String
-  applicationID Int
-  application   Application @relation(fields: [applicationID], references: [id])
+  method       String
+  subject      String
+  document     String
 }
