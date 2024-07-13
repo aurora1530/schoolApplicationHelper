@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:school_application_helper/widgets/main_header.dart';
 
 void main() {
   runApp(const MyApp());
@@ -42,10 +43,7 @@ class _SchoolApplicationHelperState extends State<SchoolApplicationHelper> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
+      appBar: MainHeader(widget: widget),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
