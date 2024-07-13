@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:school_application_helper/widgets/search/application_info.dart';
+import 'package:school_application_helper/widgets/search/application_list_view.dart';
 import 'package:school_application_helper/widgets/search/highschool_info.dart';
 
 class Application extends StatefulWidget {
@@ -66,27 +67,7 @@ class _ApplicationState extends State<Application> {
                 ? const Expanded(
                     child: Center(child: CircularProgressIndicator()))
                 : Expanded(
-                    child: ListView.builder(
-                      itemCount: _applications.length,
-                      itemBuilder: (context, index) {
-                        final application = _applications[index];
-                        return Card(
-                          child: ListTile(
-                            title: Text(application.method),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Deadline: ${application.deadline}'),
-                                Text(
-                                    'Documents: ${application.documents.join(', ')}'),
-                                Text(
-                                    'Subjects: ${application.subjects.join(', ')}'),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
+                    child: ApplicationListView(applications: _applications),
                   ),
           ],
         ),
