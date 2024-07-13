@@ -12,13 +12,14 @@ app.get('/', (c) => {
 app.get('/search/highSchools', async (c) => {
   const query = c.req.query('q') ?? '';
   const page = parseInt(c.req.query('page') ?? '1');
-  console.log(`path: ${c.req.path}, query: ${query}, page: ${page}`);
+  const prefectures = c.req.query('prefectures')?.split(',') ?? [];
+  console.log(`path: ${c.req.path}, query: ${query}, page: ${page}, prefectures: ${prefectures}`);
   if (!query) {
     c.status(400);
     return c.json({ error: 'Query is required' });
   }
 
-  const { items: schools, count, pageCount } = await searchSchoolsByName(query, page);
+  const { items: schools, count, pageCount } = await searchSchoolsByName(query, page, prefectures);
 
   return c.json({ schools, count, pageCount });
 });

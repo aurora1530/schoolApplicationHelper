@@ -10,7 +10,8 @@ type SchoolInfo = {
 
 export const searchSchoolsByName = async (
   nameQuery: string,
-  page: number = 1
+  page: number = 1,
+  prefectures: string[] = [],
 ): Promise<{
   items: SchoolInfo[];
   count: number;
@@ -19,13 +20,30 @@ export const searchSchoolsByName = async (
   const perPage = 20;
   const skip = perPage * (page - 1);
   nameQuery = hiraganaToKatakana(nameQuery);
+
+  const client = Client.getInstance();
+
+  const targetPrefectures = await client.prefecture.findMany({
+    where: {
+      name: {
+        in: prefectures,
+      },
+    },
+    select: {
+      id: true,
+    },
+  })
+  const targetPrefectureIDs = targetPrefectures.map((prefecture) => prefecture.id);
+
   const where: Prisma.HighSchoolScalarWhereInput = {
     name: {
       contains: nameQuery,
     },
+    prefectureID: {
+      in: targetPrefectureIDs.length > 0 ? targetPrefectureIDs : undefined,
+    },
   };
 
-  const client = Client.getInstance();
 
   const [schools, schoolsCount] = await Promise.all([
     client.highSchool.findMany({
