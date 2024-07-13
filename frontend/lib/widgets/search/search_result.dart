@@ -16,10 +16,63 @@ class _SearchResultState extends State<SearchResult> {
   int _schoolCount = 0;
   List<HighSchoolInfo> _schools = [];
   final TextEditingController _searchController = TextEditingController();
+  List<String> _selectedPrefectures = [];
+  final List<String> _allPrefectures = [
+    '北海道',
+    '青森県',
+    '岩手県',
+    '宮城県',
+    '秋田県',
+    '山形県',
+    '福島県',
+    '茨城県',
+    '栃木県',
+    '群馬県',
+    '埼玉県',
+    '千葉県',
+    '東京都',
+    '神奈川県',
+    '新潟県',
+    '富山県',
+    '石川県',
+    '福井県',
+    '山梨県',
+    '長野県',
+    '岐阜県',
+    '静岡県',
+    '愛知県',
+    '三重県',
+    '滋賀県',
+    '京都府',
+    '大阪府',
+    '兵庫県',
+    '奈良県',
+    '和歌山県',
+    '鳥取県',
+    '島根県',
+    '岡山県',
+    '広島県',
+    '山口県',
+    '徳島県',
+    '香川県',
+    '愛媛県',
+    '高知県',
+    '福岡県',
+    '佐賀県',
+    '長崎県',
+    '熊本県',
+    '大分県',
+    '宮崎県',
+    '鹿児島県',
+    '沖縄県',
+  ];
 
   Future<void> _fetchSchools(String query, int page) async {
+    final String prefecturesParam = _selectedPrefectures.isNotEmpty
+        ? '&prefectures=${_selectedPrefectures.join(',')}'
+        : '';
     final response = await http.get(Uri.parse(
-        'http://10.0.2.2:3000/search/highSchools?q=$query&page=$page'));
+        'http://10.0.2.2:3000/search/highSchools?q=$query&page=$page$prefecturesParam'));
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> schoolListJson = json.decode(response.body);
@@ -35,6 +88,65 @@ class _SearchResultState extends State<SearchResult> {
     } else {
       throw Exception('Failed to load schools');
     }
+  }
+
+  void _showPrefectureDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text('都道府県を選択'),
+              content: SingleChildScrollView(
+                child: Column(
+                  children: _allPrefectures.map((prefecture) {
+                    return CheckboxListTile(
+                      title: Text(prefecture),
+                      value: _selectedPrefectures.contains(prefecture),
+                      onChanged: (bool? value) {
+                        setState(() {
+                          if (value == true) {
+                            _selectedPrefectures.add(prefecture);
+                          } else {
+                            _selectedPrefectures.remove(prefecture);
+                          }
+                        });
+                      },
+                    );
+                  }).toList(),
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      _selectedPrefectures.clear();
+                    });
+                  },
+                  child: const Text('全て解除'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      _selectedPrefectures = List.from(_allPrefectures);
+                    });
+                  },
+                  child: const Text('すべて選択'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    _fetchSchools(_searchController.text, 1);
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('閉じる'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 
   void _resetSearch() {
@@ -71,7 +183,9 @@ class _SearchResultState extends State<SearchResult> {
               ),
               child: Row(
                 children: [
-                  IconButton(onPressed: () => {}, icon: const Icon(Icons.menu)),
+                  IconButton(
+                      onPressed: _showPrefectureDialog,
+                      icon: const Icon(Icons.menu)),
                   Expanded(
                       child: TextField(
                     controller: _searchController,
