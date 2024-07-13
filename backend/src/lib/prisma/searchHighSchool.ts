@@ -18,6 +18,7 @@ export const searchSchoolsByName = async (
 }> => {
   const perPage = 20;
   const skip = perPage * (page - 1);
+  nameQuery = hiraganaToKatakana(nameQuery);
   const where: Prisma.HighSchoolScalarWhereInput = {
     name: {
       contains: nameQuery,
@@ -26,7 +27,6 @@ export const searchSchoolsByName = async (
 
   const client = Client.getInstance();
 
-  nameQuery = hiraganaToKatakana(nameQuery);
   const [schools, schoolsCount] = await Promise.all([
     client.highSchool.findMany({
       where,
