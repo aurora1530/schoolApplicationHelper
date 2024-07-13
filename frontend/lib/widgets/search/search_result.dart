@@ -165,67 +165,70 @@ class _SearchResultState extends State<SearchResult> {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.inversePrimary,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                children: [
-                  IconButton(
-                      onPressed: _showPrefectureDialog,
-                      icon: const Icon(Icons.menu)),
-                  Expanded(
-                      child: TextField(
-                    controller: _searchController,
-                    onSubmitted: (query) {
-                      _fetchSchools(query, 1);
-                    },
-                    decoration: const InputDecoration(
-                        hintText: '高校名を入力',
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(vertical: 15.0)),
-                  )),
-                  IconButton(
-                    icon: const Icon(Icons.search),
-                    onPressed: () {
-                      _fetchSchools(_searchController.text, 1);
-                    },
-                  ),
-                ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  children: [
+                    IconButton(
+                        onPressed: _showPrefectureDialog,
+                        icon: const Icon(Icons.menu)),
+                    Expanded(
+                        child: TextField(
+                      controller: _searchController,
+                      onSubmitted: (query) {
+                        _fetchSchools(query, 1);
+                      },
+                      decoration: const InputDecoration(
+                          hintText: '高校名を入力',
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(vertical: 15.0)),
+                    )),
+                    IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: () {
+                        _fetchSchools(_searchController.text, 1);
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          _schoolCount > 0
-              ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('$_schoolCount件の高校が見つかりました'),
-                )
-              : const Text('高校が見つかりませんでした。検索条件を変更してください。'),
-          Expanded(
-            child: HighSchoolsListView(schools: _schools),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: _pageCount == 0
-                ? const SizedBox.shrink()
-                : PaginationArrows(
-                    currentPage: _currentPage,
-                    pageCount: _pageCount,
-                    toPreviousPage: () {
-                      _fetchSchools(_searchController.text, _currentPage - 1);
-                    },
-                    toNextPage: () {
-                      _fetchSchools(_searchController.text, _currentPage + 1);
-                    },
-                    theme: theme),
-          ),
-        ],
+            _schoolCount > 0
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('$_schoolCount件の高校が見つかりました'),
+                  )
+                : const Text('高校が見つかりませんでした。検索条件を変更してください。'),
+            Expanded(
+              child: HighSchoolsListView(schools: _schools),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _pageCount == 0
+                  ? const SizedBox.shrink()
+                  : PaginationArrows(
+                      currentPage: _currentPage,
+                      pageCount: _pageCount,
+                      toPreviousPage: () {
+                        _fetchSchools(_searchController.text, _currentPage - 1);
+                      },
+                      toNextPage: () {
+                        _fetchSchools(_searchController.text, _currentPage + 1);
+                      },
+                      theme: theme),
+            ),
+          ],
+        ),
       ),
     );
   }
