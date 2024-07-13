@@ -12,19 +12,35 @@ class ApplicationListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return ListView.builder(
       itemCount: _applications.length,
       itemBuilder: (context, index) {
         final application = _applications[index];
         return Card(
           child: ListTile(
-            title: Text(application.method),
+            title: Text(
+              application.method,
+              style: theme.textTheme.titleLarge,
+            ),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('出願締め切り: ${formatDateTimeToLocale(application.deadline)}'),
-                Text('必要書類: ${application.documents.join(', ')}'),
-                Text('受験科目: ${application.subjects.join(', ')}'),
+                const Divider(
+                  height: 10,
+                ),
+                Text(
+                  '出願締め切り: ${formatDateTimeToLocale(application.deadline)}',
+                  style: theme.textTheme.bodyLarge,
+                ),
+                Text(
+                  '必要書類: ${application.documents.join(', ')}',
+                  style: theme.textTheme.bodyLarge,
+                ),
+                Text(
+                  '受験科目: ${application.subjects.join(', ')}',
+                  style: theme.textTheme.bodyLarge,
+                ),
               ],
             ),
           ),
