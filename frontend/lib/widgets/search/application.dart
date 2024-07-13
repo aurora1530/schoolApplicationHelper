@@ -50,28 +50,31 @@ class _ApplicationState extends State<Application> {
         centerTitle: true,
       ),
       body: Center(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  widget.school.name,
-                  style: theme.textTheme.titleLarge,
-                ),
-                Text(
-                  widget.school.prefecture,
-                  style: theme.textTheme.titleLarge,
-                ),
-              ],
-            ),
-            _isLoading
-                ? const Expanded(
-                    child: Center(child: CircularProgressIndicator()))
-                : Expanded(
-                    child: ApplicationListView(applications: _applications),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(
+                    widget.school.name,
+                    style: theme.textTheme.titleLarge,
                   ),
-          ],
+                  Text(
+                    widget.school.prefecture,
+                    style: theme.textTheme.titleLarge,
+                  ),
+                ],
+              ),
+              _isLoading
+                  ? const Expanded(
+                      child: Center(child: CircularProgressIndicator()))
+                  : Expanded(
+                      child: ApplicationListView(applications: _applications),
+                    ),
+            ],
+          ),
         ),
       ),
     );
