@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:school_application_helper/widgets/search/application.dart';
 import 'package:school_application_helper/widgets/search/highschool_info.dart';
 import 'package:school_application_helper/widgets/search/highschool_search_box.dart';
-import 'package:school_application_helper/widgets/search/highschools_list_view.dart';
+import 'package:school_application_helper/widgets/search/highschool_list_view.dart';
 import 'package:school_application_helper/widgets/search/pagination_arrows.dart';
 
 class SearchResult extends StatefulWidget {
@@ -186,7 +186,7 @@ class _SearchResultState extends State<SearchResult> {
                   )
                 : const Text('高校が見つかりませんでした。検索条件を変更してください。'),
             Expanded(
-              child: HighSchoolsListView(schools: _schools),
+              child: HighSchoolListView(schools: _schools),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
