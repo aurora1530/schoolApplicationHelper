@@ -63,7 +63,8 @@ class _ApplicationState extends State<Application> {
               ],
             ),
             _isLoading
-                ? const CircularProgressIndicator()
+                ? const Expanded(
+                    child: Center(child: CircularProgressIndicator()))
                 : Expanded(
                     child: ListView.builder(
                       itemCount: _applications.length,
