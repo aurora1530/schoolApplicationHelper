@@ -16,7 +16,7 @@ class SearchResult extends StatefulWidget {
 class _SearchResultState extends State<SearchResult> {
   int _currentPage = 1;
   int _pageCount = 0;
-  int _allSchoolCount = 0;
+  int _allSchoolCount = -1;
   bool _isLoading = false;
   bool _hasError = false;
   List<HighSchoolInfo> _schools = [];
@@ -200,7 +200,7 @@ class _SearchResultState extends State<SearchResult> {
       _schools.clear();
       _currentPage = 1;
       _pageCount = 0;
-      _allSchoolCount = 0;
+      _allSchoolCount = -1;
       _selectedPrefectures.clear();
     });
   }
@@ -274,12 +274,14 @@ class _SearchResultState extends State<SearchResult> {
                 context),
             _schools.isEmpty && _searchController.text == ''
                 ? const Text('高校名を検索ボックスに入力してください')
-                : _allSchoolCount > 0
-                    ? Padding(
+                : _allSchoolCount == 0
+                    ? const Text('高校が見つかりませんでした。検索条件を変更してください。')
+                    : Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text('$_allSchoolCount件の高校が見つかりました'),
-                      )
-                    : const Text('高校が見つかりませんでした。検索条件を変更してください。'),
+                        child: _allSchoolCount == -1
+                            ? const SizedBox.shrink()
+                            : Text('$_allSchoolCount件の高校が見つかりました'),
+                      ),
             _isLoading
                 ? const Expanded(
                     child: Center(child: CircularProgressIndicator()))
