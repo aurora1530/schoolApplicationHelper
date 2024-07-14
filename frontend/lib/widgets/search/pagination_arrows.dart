@@ -7,6 +7,8 @@ class PaginationArrows extends StatelessWidget {
     required int pageCount,
     required this.toPreviousPage,
     required this.toNextPage,
+    required this.toFirstPage,
+    required this.toLastPage,
   })  : _currentPage = currentPage,
         _pageCount = pageCount;
 
@@ -14,6 +16,8 @@ class PaginationArrows extends StatelessWidget {
   final int _pageCount;
   final VoidCallback toPreviousPage;
   final VoidCallback toNextPage;
+  final VoidCallback toFirstPage;
+  final VoidCallback toLastPage;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +25,13 @@ class PaginationArrows extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        IconButton(
+          icon: const Icon(
+            Icons.first_page,
+            size: 50,
+          ),
+          onPressed: _currentPage > 1 ? toFirstPage : null,
+        ),
         IconButton(
           icon: const Icon(
             Icons.arrow_back,
@@ -35,6 +46,13 @@ class PaginationArrows extends StatelessWidget {
             size: 50,
           ),
           onPressed: _currentPage < _pageCount ? toNextPage : null,
+        ),
+        IconButton(
+          icon: const Icon(
+            Icons.last_page,
+            size: 50,
+          ),
+          onPressed: _currentPage < _pageCount ? toLastPage : null,
         ),
       ],
     );

@@ -228,6 +228,12 @@ class _SearchResultState extends State<SearchResult> {
                       toNextPage: () {
                         _fetchSchools(_searchController.text, _currentPage + 1);
                       },
+                      toFirstPage: () {
+                        _fetchSchools(_searchController.text, 1);
+                      },
+                      toLastPage: () {
+                        _fetchSchools(_searchController.text, _pageCount);
+                      },
                     ),
             ),
           ],
