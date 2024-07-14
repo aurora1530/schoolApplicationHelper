@@ -148,7 +148,7 @@ class _SearchResultState extends State<SearchResult> {
                       _selectedPrefectures = List.from(_allPrefectures);
                     });
                   },
-                  child: const Text('すべて選択'),
+                  child: const Text('全て選択'),
                 ),
                 TextButton(
                   onPressed: () {
