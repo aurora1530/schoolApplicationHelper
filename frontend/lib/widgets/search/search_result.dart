@@ -190,12 +190,14 @@ class _SearchResultState extends State<SearchResult> {
                 fetchSchools: _fetchSchools,
               ),
             ),
-            _schoolCount > 0
-                ? Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('$_schoolCount件の高校が見つかりました'),
-                  )
-                : const Text('高校が見つかりませんでした。検索条件を変更してください。'),
+            _schools.isEmpty && _searchController.text == ''
+                ? Text('高校名を検索ボックスに入力してください')
+                : _schoolCount > 0
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('$_schoolCount件の高校が見つかりました'),
+                      )
+                    : const Text('高校が見つかりませんでした。検索条件を変更してください。'),
             _isLoading
                 ? const Expanded(
                     child: Center(child: CircularProgressIndicator()))
