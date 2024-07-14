@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:school_application_helper/utils/dialog.dart';
 
 class HighSchoolSearchBox extends StatelessWidget {
   const HighSchoolSearchBox({
@@ -43,7 +44,19 @@ class HighSchoolSearchBox extends StatelessWidget {
             },
           ),
           IconButton(
-              onPressed: refreshSearch, icon: const Icon(Icons.cancel_outlined))
+              onPressed: () {
+                showWarnDialog(
+                  context: context,
+                  title: '検索条件をリセットしますか？',
+                  content: '検索条件が全てリセットされますが、よろしいですか？',
+                  confirmText: 'リセット',
+                  cancelText: 'キャンセル',
+                  onConfirm: () {
+                    refreshSearch();
+                  },
+                );
+              },
+              icon: const Icon(Icons.cancel_outlined))
         ],
       ),
     );
