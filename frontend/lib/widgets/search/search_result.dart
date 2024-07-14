@@ -17,6 +17,8 @@ class _SearchResultState extends State<SearchResult> {
   int _currentPage = 1;
   int _pageCount = 0;
   int _schoolCount = 0;
+  bool _isLoading = false;
+  bool _hasError = false;
   List<HighSchoolInfo> _schools = [];
   final TextEditingController _searchController = TextEditingController();
   List<String> _selectedPrefectures = [];
@@ -71,6 +73,10 @@ class _SearchResultState extends State<SearchResult> {
   ];
 
   Future<void> _fetchSchools(String query, int page) async {
+    setState(() {
+      _isLoading = true;
+      _hasError = false;
+    });
     final String prefecturesParam = _selectedPrefectures.isNotEmpty
         ? '&prefectures=${_selectedPrefectures.join(',')}'
         : '';
@@ -87,9 +93,14 @@ class _SearchResultState extends State<SearchResult> {
         _schools = schools
             .map((schoolJson) => HighSchoolInfo.fromJson(schoolJson))
             .toList();
+        _isLoading = false;
       });
     } else {
-      throw Exception('Failed to load schools');
+      setState(() {
+        _hasError = true;
+        _isLoading = false;
+      });
+      return;
     }
   }
 
@@ -185,9 +196,15 @@ class _SearchResultState extends State<SearchResult> {
                     child: Text('$_schoolCount件の高校が見つかりました'),
                   )
                 : const Text('高校が見つかりませんでした。検索条件を変更してください。'),
-            Expanded(
-              child: HighSchoolListView(schools: _schools),
-            ),
+            _isLoading
+                ? const Expanded(
+                    child: Center(child: CircularProgressIndicator()))
+                : _hasError
+                    ? const Expanded(
+                        child: Center(child: Text('高校の読み込みに失敗しました。')))
+                    : Expanded(
+                        child: HighSchoolListView(schools: _schools),
+                      ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: _pageCount == 0
