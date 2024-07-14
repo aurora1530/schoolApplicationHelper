@@ -6,11 +6,13 @@ class HighSchoolSearchBox extends StatelessWidget {
     required TextEditingController searchController,
     required this.showPrefectureDialog,
     required this.fetchSchools,
+    required this.refreshSearch,
   }) : _searchController = searchController;
 
   final TextEditingController _searchController;
   final VoidCallback showPrefectureDialog;
   final Future<void> Function(String query, int page) fetchSchools;
+  final VoidCallback refreshSearch;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +42,8 @@ class HighSchoolSearchBox extends StatelessWidget {
               fetchSchools(_searchController.text, 1);
             },
           ),
+          IconButton(
+              onPressed: refreshSearch, icon: const Icon(Icons.cancel_outlined))
         ],
       ),
     );

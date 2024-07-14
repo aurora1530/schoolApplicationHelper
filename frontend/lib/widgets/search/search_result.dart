@@ -194,13 +194,14 @@ class _SearchResultState extends State<SearchResult> {
         });
   }
 
-  void _resetSearch() {
+  void _refreshSearch() {
     _searchController.clear();
     setState(() {
-      _schools = [];
+      _schools.clear();
       _currentPage = 1;
       _pageCount = 0;
       _allSchoolCount = 0;
+      _selectedPrefectures.clear();
     });
   }
 
@@ -262,6 +263,7 @@ class _SearchResultState extends State<SearchResult> {
                 searchController: _searchController,
                 showPrefectureDialog: _showPrefectureDialog,
                 fetchSchools: _fetchSchools,
+                refreshSearch: _refreshSearch,
               ),
             ),
             handleSelectedSchoolsButtons(
