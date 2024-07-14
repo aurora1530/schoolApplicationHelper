@@ -22,6 +22,13 @@ make run_backend
 make run_frontend
 ```
 
+## デモ動画
+
+
+https://github.com/user-attachments/assets/df39874a-dd9b-4634-9e61-f326e71c2eca
+
+
+
 ## License
 
 MIT
