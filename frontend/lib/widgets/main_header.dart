@@ -14,10 +14,6 @@ class MainHeader extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       title: Text(title),
       centerTitle: true,
-      leading: IconButton(
-        icon: const Icon(Icons.menu),
-        onPressed: () {},
-      ),
     );
   }
 
