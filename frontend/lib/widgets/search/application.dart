@@ -60,18 +60,25 @@ class _ApplicationState extends State<Application> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    widget.school.name,
-                    style: theme.textTheme.titleLarge,
+              Card(
+                elevation: 1,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        widget.school.name,
+                        style: theme.textTheme.titleLarge,
+                      ),
+                      const SizedBox(height: 8.0),
+                      Text(
+                        widget.school.prefecture,
+                        style: theme.textTheme.titleLarge,
+                      ),
+                    ],
                   ),
-                  Text(
-                    widget.school.prefecture,
-                    style: theme.textTheme.titleLarge,
-                  ),
-                ],
+                ),
               ),
               _isLoading
                   ? const Expanded(
