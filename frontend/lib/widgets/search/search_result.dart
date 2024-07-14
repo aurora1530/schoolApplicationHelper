@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:school_application_helper/widgets/compare/application_compare_view.dart';
 import 'package:school_application_helper/widgets/search/application.dart';
 import 'package:school_application_helper/widgets/search/highschool_info.dart';
 import 'package:school_application_helper/widgets/search/highschool_search_box.dart';
@@ -164,6 +165,36 @@ class _SearchResultState extends State<SearchResult> {
     );
   }
 
+  void _showSelectedSchools() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('選択中の高校'),
+            content: SizedBox(
+              width: double.maxFinite,
+              child: HighSchoolListView(
+                schools: [..._selectedSchools],
+                selectedSchools: _selectedSchools,
+                onSelectionChanged: (selectedSchools) {
+                  setState(() {
+                    _selectedSchools = selectedSchools;
+                  });
+                },
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('閉じる'),
+              ),
+            ],
+          );
+        });
+  }
+
   void _resetSearch() {
     _searchController.clear();
     setState(() {
@@ -172,6 +203,49 @@ class _SearchResultState extends State<SearchResult> {
       _pageCount = 0;
       _allSchoolCount = 0;
     });
+  }
+
+  Row handleSelectedSchoolsButtons(
+      ButtonStyle buttonWithIconTheme, BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        TextButton.icon(
+            icon: const Icon(Icons.view_list),
+            style: buttonWithIconTheme,
+            onPressed: _selectedSchools.isEmpty ? null : _showSelectedSchools,
+            label: Text('選択中: ${_selectedSchools.length}校')),
+        TextButton.icon(
+          icon: const Icon(Icons.clear),
+          style: buttonWithIconTheme,
+          onPressed: _selectedSchools.isEmpty
+              ? null
+              : () {
+                  setState(() {
+                    _selectedSchools.clear();
+                  });
+                },
+          label: const Text('選択を解除'),
+        ),
+        TextButton.icon(
+          icon: const Icon(Icons.compare),
+          style: buttonWithIconTheme,
+          onPressed: _selectedSchools.length < 2
+              ? null
+              : () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ApplicationCompere(
+                        selectedSchools: _selectedSchools,
+                      ),
+                    ),
+                  );
+                },
+          label: const Text('出願方法を比較'),
+        ),
+      ],
+    );
   }
 
   @override
@@ -191,8 +265,14 @@ class _SearchResultState extends State<SearchResult> {
                 fetchSchools: _fetchSchools,
               ),
             ),
+            handleSelectedSchoolsButtons(
+                TextButton.styleFrom(
+                    backgroundColor: theme.colorScheme.primaryContainer,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0))),
+                context),
             _schools.isEmpty && _searchController.text == ''
-                ? Text('高校名を検索ボックスに入力してください')
+                ? const Text('高校名を検索ボックスに入力してください')
                 : _allSchoolCount > 0
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
