@@ -225,7 +225,7 @@ class _SearchResultState extends State<SearchResult> {
                     _selectedSchools.clear();
                   });
                 },
-          label: const Text('選択を解除'),
+          label: const Text('選択を全解除'),
         ),
         TextButton.icon(
           icon: const Icon(Icons.compare),
@@ -242,7 +242,7 @@ class _SearchResultState extends State<SearchResult> {
                     ),
                   );
                 },
-          label: const Text('出願方法を比較'),
+          label: const Text('出願方法比較'),
         ),
       ],
     );
