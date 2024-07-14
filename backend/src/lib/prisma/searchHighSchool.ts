@@ -11,9 +11,9 @@ type SchoolInfo = {
 export const searchSchoolsByName = async (
   nameQuery: string,
   page: number = 1,
-  prefectures: string[] = [],
+  prefectures: string[] = []
 ): Promise<{
-  items: SchoolInfo[];
+  schools: SchoolInfo[];
   count: number;
   pageCount: number;
 }> => {
@@ -32,7 +32,7 @@ export const searchSchoolsByName = async (
     select: {
       id: true,
     },
-  })
+  });
   const targetPrefectureIDs = targetPrefectures.map((prefecture) => prefecture.id);
 
   const where: Prisma.HighSchoolScalarWhereInput = {
@@ -44,8 +44,7 @@ export const searchSchoolsByName = async (
     },
   };
 
-
-  const [schools, schoolsCount] = await Promise.all([
+  const [foundSchools, schoolsCount] = await Promise.all([
     client.highSchool.findMany({
       where,
       orderBy: {
@@ -64,14 +63,14 @@ export const searchSchoolsByName = async (
 
   const pageCount = Math.ceil(schoolsCount / perPage);
 
-  const items = schools.map((school) => ({
+  const schools = foundSchools.map((school) => ({
     id: school.id,
     name: school.name,
     prefecture: school.prefecture.name,
   }));
 
   return {
-    items,
+    schools,
     count: schoolsCount,
     pageCount,
   };

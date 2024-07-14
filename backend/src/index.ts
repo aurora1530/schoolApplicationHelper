@@ -13,9 +13,15 @@ app.get('/search/highSchools', async (c) => {
   const query = c.req.query('q') ?? '';
   const page = parseInt(c.req.query('page') ?? '1');
   const prefectures = c.req.query('prefectures')?.split(',') ?? [];
-  console.log(`path: ${c.req.path}, query: ${query}, page: ${page}, prefectures: ${prefectures}`);
+  console.log(
+    `path: ${c.req.path}, query: ${query}, page: ${page}, prefectures: ${prefectures}`
+  );
 
-  const { items: schools, count, pageCount } = await searchSchoolsByName(query, page, prefectures);
+  const { schools, count, pageCount } = await searchSchoolsByName(
+    query,
+    page,
+    prefectures
+  );
 
   return c.json({ schools, count, pageCount });
 });
