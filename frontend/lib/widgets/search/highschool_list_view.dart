@@ -17,18 +17,17 @@ class HighSchoolListView extends StatelessWidget {
       itemBuilder: (context, index) {
         return Card(
           child: ListTile(
-              title: Text(_schools[index].name),
-              subtitle: Text(_schools[index].prefecture),
-              trailing: IconButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              Application(school: _schools[index])));
-                },
-                icon: const Icon(Icons.arrow_forward_ios),
-              )),
+            title: Text(_schools[index].name),
+            subtitle: Text(_schools[index].prefecture),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          Application(school: _schools[index])));
+            },
+            trailing: const Icon(Icons.arrow_forward_ios),
+          ),
         );
       },
     );
