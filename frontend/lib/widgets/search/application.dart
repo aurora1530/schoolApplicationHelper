@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:school_application_helper/utils/fetch_applications.dart';
 import 'package:school_application_helper/widgets/search/application_info.dart';
 import 'package:school_application_helper/widgets/search/application_list_view.dart';
 import 'package:school_application_helper/widgets/search/highschool_info.dart';
@@ -26,23 +27,22 @@ class _ApplicationState extends State<Application> {
   }
 
   Future<void> _fetchApplications() async {
-    final response = await http.get(Uri.parse(
-        'http://10.0.2.2:3000/search/highSchools/${widget.school.id}'));
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> applicationJson = json.decode(response.body);
-      final List<dynamic> applicationListJson = applicationJson['applications'];
+    try {
       setState(() {
-        _applications = applicationListJson
-            .map((applicationJson) => ApplicationInfo.fromJson(applicationJson))
-            .toList();
-        _isLoading = false;
+        _isLoading = true;
       });
-    } else {
+      final applications = await fetchApplications(widget.school.id);
+      setState(() {
+        _applications = applications;
+      });
+    } catch (e) {
       setState(() {
         _hasError = true;
+      });
+    } finally {
+      setState(() {
         _isLoading = false;
       });
-      return;
     }
   }
 
