@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:school_application_helper/widgets/compare/application_compare_view.dart';
-import 'package:school_application_helper/widgets/search/application.dart';
 import 'package:school_application_helper/widgets/search/highschool_info.dart';
 import 'package:school_application_helper/widgets/search/highschool_search_box.dart';
 import 'package:school_application_helper/widgets/search/highschool_list_view.dart';
