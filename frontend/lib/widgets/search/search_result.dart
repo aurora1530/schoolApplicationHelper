@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:school_application_helper/utils/dialog.dart';
 import 'package:school_application_helper/widgets/compare/application_compare_view.dart';
 import 'package:school_application_helper/widgets/search/highschool_info.dart';
 import 'package:school_application_helper/widgets/search/highschool_search_box.dart';
@@ -221,9 +222,17 @@ class _SearchResultState extends State<SearchResult> {
           onPressed: _selectedSchools.isEmpty
               ? null
               : () {
-                  setState(() {
-                    _selectedSchools.clear();
-                  });
+                  showWarnDialog(
+                      context: context,
+                      onConfirm: () {
+                        setState(() {
+                          _selectedSchools.clear();
+                        });
+                      },
+                      title: '選択を解除しますか？',
+                      content: '選択された全ての高校について、選択状態が解除されます。この操作は取り消せません。',
+                      confirmText: '解除',
+                      cancelText: 'キャンセル');
                 },
           label: const Text('選択を全解除'),
         ),
