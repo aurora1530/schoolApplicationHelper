@@ -17,6 +17,7 @@ class Application extends StatefulWidget {
 class _ApplicationState extends State<Application> {
   List<ApplicationInfo> _applications = [];
   bool _isLoading = true;
+  bool _hasError = false;
 
   @override
   void initState() {
@@ -28,7 +29,8 @@ class _ApplicationState extends State<Application> {
     final response = await http.get(Uri.parse(
         'http://10.0.2.2:3000/search/highSchools/${widget.school.id}'));
     if (response.statusCode == 200) {
-      final List<dynamic> applicationListJson = json.decode(response.body);
+      final Map<String, dynamic> applicationJson = json.decode(response.body);
+      final List<dynamic> applicationListJson = applicationJson['applications'];
       setState(() {
         _applications = applicationListJson
             .map((applicationJson) => ApplicationInfo.fromJson(applicationJson))
@@ -36,7 +38,11 @@ class _ApplicationState extends State<Application> {
         _isLoading = false;
       });
     } else {
-      throw Exception('Failed to load applications');
+      setState(() {
+        _hasError = true;
+        _isLoading = false;
+      });
+      return;
     }
   }
 
@@ -70,9 +76,16 @@ class _ApplicationState extends State<Application> {
               _isLoading
                   ? const Expanded(
                       child: Center(child: CircularProgressIndicator()))
-                  : Expanded(
-                      child: ApplicationListView(applications: _applications),
-                    ),
+                  : _hasError
+                      ? const Expanded(
+                          child: Center(child: Text('出願方法の読み込みに失敗しました。')))
+                      : _applications.isEmpty
+                          ? const Expanded(
+                              child: Center(child: Text('出願方法情報がありません。')))
+                          : Expanded(
+                              child: ApplicationListView(
+                                  applications: _applications),
+                            ),
             ],
           ),
         ),
