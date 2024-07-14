@@ -20,6 +20,7 @@ class _SearchResultState extends State<SearchResult> {
   bool _isLoading = false;
   bool _hasError = false;
   List<HighSchoolInfo> _schools = [];
+  List<HighSchoolInfo> _selectedSchools = [];
   final TextEditingController _searchController = TextEditingController();
   List<String> _selectedPrefectures = [];
   final List<String> _allPrefectures = [
@@ -205,7 +206,14 @@ class _SearchResultState extends State<SearchResult> {
                     ? const Expanded(
                         child: Center(child: Text('高校の読み込みに失敗しました。')))
                     : Expanded(
-                        child: HighSchoolListView(schools: _schools),
+                        child: HighSchoolListView(
+                            schools: _schools,
+                            selectedSchools: _selectedSchools,
+                            onSelectionChanged: (selectedSchools) {
+                              setState(() {
+                                _selectedSchools = selectedSchools;
+                              });
+                            }),
                       ),
             Padding(
               padding: const EdgeInsets.all(8.0),
