@@ -30,7 +30,7 @@ app.get('/search/highSchools/:id', async (c) => {
   }
 
   const applications = await searchApplicationBySchoolId(id);
-  return c.json(applications);
+  return c.json({ applications });
 });
 
 const port = 3000;
